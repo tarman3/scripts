@@ -1,9 +1,12 @@
 #! /bin/bash
 
+killall conky
+powerprofilesctl set power-saver
+
 clear
 
-min_volume=10
-start_brigtness=15
+min_volume=15
+start_brigtness=10
 
 if [ $# -lt 1 ]; then
     echo -n "Enter minutes to power off (default 60): "
@@ -42,6 +45,8 @@ done
 
 pause=$((${period}*60/(${current_volume}-${min_volume})))
 echo "Pause ${pause} sec"
+
+kde-inhibit --power --screenSaver sleep $period &
 
 while [[ ${current_volume} -gt ${min_volume} ]]; do
     pactl set-sink-volume @DEFAULT_SINK@ -1%
