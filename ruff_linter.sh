@@ -1,8 +1,6 @@
 #! /bin/bash
 
-arg1=$1
-arg2=$2
+ruff --quiet check $@
+# --quiet - do not show message "All checks passed!"
 
-ruff $arg1 $arg2
-
-echo
+(exit 0) # replace exit code by 0

@@ -1,5 +1,10 @@
 #! /bin/bash
 
+hours=`date +"%H"`
+if [ $hours -lt 7 ]; then
+    brightnessctl -q set 10%
+fi
+
 power_state=`cat /sys/class/power_supply/ACAD/online`
 if [ ${power_state} = 0 ]; then
     nmcli radio wifi off
@@ -20,7 +25,11 @@ srm -rll '/home/user/.local/share/materialgram/tdata/user_data'
 plasma-apply-wallpaperimage '/home/user/Pictures/arch.png'
 
 sleep 3
-uv run --project $HOME/uv/python13 $HOME/.local/scripts/apod.py &
+
+hours=`date +"%H"`
+if [ $hours -gt 7 ]; then
+    uv run --project $HOME/uv/python13 $HOME/.local/scripts/apod.py &
+fi
 
 # killall conky
 # sleep 10
